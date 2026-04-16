@@ -1,0 +1,56 @@
+name: GitHub Actions CI
+
+on:
+  push:
+
+jobs:
+  test_runner:
+    name: Test Runner with OS ${{ matrix.os }} and Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        python-version: [3.10, 3.11, 3.12]
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - run: pip install -r requirements.txt
+      
+      - run: pytest
+
+  linter:
+    name: Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.10
+
+      - run: pip install -r requirements.txt
+
+      - run: flake8 .
+    
+  coverage:
+    name: Coverage Tool
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.10
+
+      - run: pip install -r requirements.txt
+
+      - run: coverage run -m pytest
+
+      - run: coverage report
