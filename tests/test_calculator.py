@@ -1,11 +1,11 @@
 """Tests for calculator operations."""
 import pytest
 from src.calculator import (
-    add, subtract, multiply, divide, 
+    add, subtract, multiply, divide,
     modulo, power, square_root, factorial
 )
 from src.validator import (
-    validate_range, validate_positive, 
+    validate_range, validate_positive,
     validate_non_negative, validate_integer
 )
 
